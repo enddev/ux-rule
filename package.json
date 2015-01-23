@@ -1,0 +1,25 @@
+{
+  "name": "ux-rule",
+  "version": "1.0.0",
+  "description": "assertions about a webpage or website's usability",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sikuli/ux-rule"
+  },
+  "author": "Erin Duggan, Tom Yeh, Shaun Kane",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sikuli/ux-rule/issues"
+  },
+  "homepage": "https://github.com/sikuli/ux-rule",
+  "dependencies": {
+    "cheerio": "^0.18.0"
+  }
+}
