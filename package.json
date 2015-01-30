@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/sikuli/ux-rule",
   "dependencies": {
-    "cheerio": "^0.18.0"
+    "cheerio": "^0.18.0",
+    "lodash": "^3.0.0"
   }
 }
