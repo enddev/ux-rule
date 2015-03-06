@@ -7,7 +7,7 @@ ux.check(cnn, '<img alt=".*">')
 // ==> true or false
 
 //var cu = fs.readFileSync('./data/www.colorado.edu.html','utf8')
-var cu = 'http://www.colorado.edu'
+var cu = 'http://google.fr'
 ux.check(cu, '<img alt=".*">')
 // ==> true or false
 
