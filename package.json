@@ -21,6 +21,7 @@
   "homepage": "https://github.com/sikuli/ux-rule",
   "dependencies": {
     "cheerio": "^0.18.0",
+    "jsonfile": "^2.0.0",
     "lodash": "^3.0.0",
     "phantomjs": "^1.9.15"
   }
