@@ -8,9 +8,11 @@ var fs = require('fs');
 
 //var cu = fs.readFileSync('./data/www.colorado.edu.html','utf8')
 //var cu = 'http://google.fr'
-var cu = 'http://cs.nmt.edu'
+//var cu = 'http://cs.nmt.edu'
 //var cu = 'http://www.squidlord.com/home/writings/fantasy?gclid=COjCrNz_lsQCFQaSaQodf5QAgA'
 //var cu = 'http://www.colorado.edu'
+//var cu = 'http://www.kbb.com/gun.htm/'
+var cu = 'https://csel.cs.colorado.edu/~erdu8260/site1'
 ux.check(cu, '<img alt=".*">')
 // ==> true or false
 

@@ -1,0 +1,480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" >
+<!--Form code taken from http://html.cita.illinois.edu/nav/form/aria/index.php?example=3--!>
+<head>
+
+<style type="text/css">
+div.text,
+div.textinvalid,
+div.button
+{
+  margin: 0;
+  padding: 0;
+  padding-left: 20px;
+  padding-bottom: .5em;
+  display: block;
+}
+
+div.text label,
+div.textinvalid label {
+ margin: 0;
+ padding: 0;
+ display: block;
+ padding-top: .25em;
+}
+
+div.text input,
+div.textinvalid input {
+ margin: 0;
+ padding: 0;
+ display: inline;
+}
+
+span.inst {
+  font-size: 75%;
+  color: blue;
+  padding-left: .25em;
+}
+
+div.text input:active,
+div.text input:focus,
+div.text input:hover
+{
+  border-color: gray;
+  background-color: #E0E0E0;
+}
+
+div.textinvalid input:active,
+div.textinvalid input:focus,
+div.textinvalid input:hover
+{
+  border-color: gray;
+  background-color: #FF8080;
+}
+
+
+form div.error {
+  display: none;
+  border: thin solid red;
+  padding: .25em; 
+  color: red;
+  font-size: 80%;
+}
+
+.offscreen {
+    position: absolute;
+    top: -30em;
+    left: -300em;
+    }
+}
+
+  </style>
+
+  <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+
+
+function validateForm() {
+      var errorMessage = "Please complete the following fields:";
+      var errorElements = new Array();
+      var node;
+      var result;
+      var node_focus = null;
+      // check required fields
+      
+      // Check first name
+      var node = document.getElementById("fname");
+      if( node && node.value == "" ) {
+          
+          result = "\nYou must enter your first name";
+          errorElements.push(result);
+          showError(node, result);
+       
+          node_focus = node;
+       }
+
+      // Check last name
+      node = document.getElementById("lname");
+      if( node && node.value == "" ) {
+      
+          result = "\nYou must enter your last name";
+          errorElements.push(result);
+          showError(node, result);
+
+          if( node_focus == null )
+             node_focus = node;
+       }
+
+      // Check date
+      node = document.getElementById("date");
+
+      if( node ) {
+         
+            result = validateDate( node );
+            
+            if( result != "" ) {
+            
+            errorElements.push(result);
+            showError(node, result);
+            
+           if( node_focus == null )
+               node_focus = node;
+                        
+            }  // end if
+         
+      } // end if
+
+      // Check SSN
+      node = document.getElementById("ssn");
+
+      if( node ) {
+         
+            result = validateSSN( node );
+            
+            if( result != "" ) {
+            
+            errorElements.push(result);
+            showError(node, result);
+            
+           if( node_focus == null )
+               node_focus = node;
+                        
+            }  // end if
+         
+      } // end if
+
+
+      // Check Phone
+      node = document.getElementById("phone");
+      
+      if( node  && node.value == "") {
+
+             result = "\nYou must enter a phone number, \nsuch as (555) 123-4567 ";
+            errorElements.push(result);
+            showError(node, result);
+            
+           if( node_focus == null )
+               node_focus = node;
+               
+      }  else {
+      
+         if( node ) {
+         
+            result = validatePhone( node );
+            
+            if( result != "" ) {
+            
+            errorElements.push(result);
+            showError(node, result);
+            
+           if( node_focus == null )
+               node_focus = node;
+                        
+            }  // end if
+         
+         } // end if
+   
+      }  // end if else
+      
+   if( node_focus != null ) {
+      
+        for(i=0; i < errorElements.length; i++ ) {
+        
+           errorMessage += "\n" + errorElements[i];
+           
+        }  // end for
+        
+        alert(errorMessage);
+   
+         if( node_focus )
+            node_focus.focus();
+            
+        return false;
+   } else {
+        // supress submit for test; for a real form, return true
+        alert("If this were a real form, you would have just submitted it.");
+        return false;
+   }
+}
+
+function checkFirst(event) {
+     var node = getTarget(event);
+     var result;
+     
+     if( node.value == "" ) {
+       var result =  "You must enter your first name";
+      } else {
+       result = ""; 
+      } // endif
+
+    showError(node, result);
+    
+    return stopPropagation( event);
+
+}
+
+function checkLast(event) {
+     var node = getTarget(event);
+     var result;
+     
+     if( node && node.value == "" ) {
+       result =  "You must enter your last name";
+      } else {
+       result = ""; 
+      } // endif
+
+    showError(node, result);
+    
+    return stopPropagation( event);
+
+}
+
+function checkDate(event) {
+
+     var node = getTarget(event);
+     
+     if( node ) {
+       var result =  validateDate( node);
+       showError(node, result);
+    } // endif
+    
+    return stopPropagation( event);
+}
+
+function validateDate(node) {
+      
+      var errorMessage = "\nDate needs to be in date format, \nsuch as 1/31/2001.";
+
+      if (node.value != "") {
+        // try parsing as date using JavaScript Date constructor
+        var dateValue = new Date(node.value.replace(/-/g, "/"));
+        if (isFinite(dateValue)) {
+          // if two-digit year, guess at correct century
+          if (node.value.match(/\D\d{1,2}$/) && dateValue.getFullYear() < (new Date().getFullYear() - 96)) {
+            dateValue.setFullYear(dateValue.getFullYear() + 100);
+          }
+          // format as mm/dd/yyyy
+          node.value = (dateValue.getMonth() + 1) + "/" + dateValue.getDate() + "/" + dateValue.getFullYear();
+          return "";
+        }
+        else {
+          return errorMessage;
+        }
+      }
+      return "";
+}
+
+function checkPhone(event ) {
+
+     var node = getTarget( event );
+
+     if( node ) {
+       var result =  validatePhone( node);
+       showError(node, result);    
+    } // endif
+    
+    return stopPropagation( event);
+    
+}
+
+function validatePhone( node ) {
+      var errorMessage = "\nPhone needs to be a phone number with area code, \nsuch as (555) 123-4567.";
+      if (node.value != "") {
+        // replace all non-digit characters, then match string starting with 2-9 (US phone numbers can't start with 0 or 1) followed by 2 digits, 3 digits, 4 digits
+        if (node.value.replace(/\D/g, "").match(/([2-9]\d{2})(\d{3})(\d{4})/)) {
+          // use sub-matches captured above to format as (###) ###-####
+          node.value = "(" + RegExp.$1 + ") " + RegExp.$2 + "-" + RegExp.$3;
+          return "";
+        }
+        else {
+          return errorMessage;
+        }
+      }
+      return "\nYou must enter a phone number, \nsuch as (555) 123-4567";      
+    }
+
+ function checkSSN(event) {
+
+     var node = getTarget( event );
+     
+     if( node ) {
+       var result =  validateSSN( node);
+       showError(node, result);    
+    } // endif
+
+    return stopPropagation( event);
+
+}
+
+function validateSSN(node) {
+      var errorMessage = "\nSocial Security Number needs to be a nine-digit number, \nsuch as 123-45-6789.";
+      
+      if (node.value != "") {
+        // replace all non-digit characters, then match 3 digits, 2 digits, 4 digits
+
+        if (node.value.replace(/\D/g, "").match(/(\d{3})(\d{2})(\d{4})/) ) {
+          // use sub-matches captured above to format as ###-##-####
+          node.value = RegExp.$1 + "-" + RegExp.$2 + "-" + RegExp.$3;
+          return "";
+        }
+        else {
+          return errorMessage;
+        }
+      }
+      return "";
+    }
+
+    function showError(node, message) {
+      var id = node.id + "_error";
+      
+      var node_error = document.getElementById( id );
+      
+      if( node_error )
+            node_error.innerHTML = "<span class='offscreen'>In valid: </span>" + message;
+            
+      if( message == "" ) {
+         node.setAttribute('aria-invalid', 'false');
+         node_error.style.display = "none";
+      } else {
+         node.setAttribute('aria-invalid', 'true');
+         node_error.style.display = "inline";
+       }
+                
+    }
+
+
+   function getTarget( event ) {
+     var e = event || window.event;
+     
+     if( e.target )
+         return e.target;
+      else
+         return e.srcElement;
+}
+
+   function stopPropagation( event ) {
+   
+      if( event.stopPropagation )
+         event.stopPropagation();
+         
+      if( event.preventDefault )
+        event.preventDefault();
+
+     if( event.cancelBubble)
+       event.cancelBubble = true;
+
+    if(event.returnValue)
+       event.returnValue = false;
+
+    return false;
+}
+
+//--><!]]>
+  </script>
+
+
+</head>
+  
+  
+<body>
+
+    <nav id="primaryNav">
+    <h2>Navigation Menu</h2>
+		<ul class="nav-list-primary">    
+            <li class="nav-list-item"><a href='https://csel.cs.colorado.edu/~erdu8260/site1' ">Site 1</a></li>
+            <li class="nav-list-item"><a href='https://csel.cs.colorado.edu/~erdu8260/site17' ">Site 17</a></li>
+            <li class="nav-list-item"><a href='https://csel.cs.colorado.edu/~erdu8260/site20' ">Site 20</a></li>
+            <li class="nav-list-item"><a href='https://csel.cs.colorado.edu/~erdu8260/site22' ">Site 22</a></li>
+        </ul>
+    </nav>
+  <div class="example">
+
+  <div>
+    <h2>Sample Form</h2>
+    <p>Fields marked with an <img src="images/required.png" class="required" alt="Required" /> are required.</p>
+    <form id="SampleForm" action="#" method="post">
+      <div class="text">
+        
+        <label for="fname">
+          First Name 
+          <img src="images/required.png" alt=""/>
+        </label>
+        
+        <input type="text" 
+                    name="fname"
+                    id="fname" 
+                    size="12"
+                    onblur="checkFirst(event)"
+                    aria-required="true"
+                    aria-invalid="false"
+                    />
+          <div class="error" id="fname_error" role="alert"></div>
+      </div>
+      
+      <div class="text">
+        <label for="lname">
+          Last Name 
+          <img src="images/required.png" alt="" />
+        </label>
+        <input type="text" 
+                    name="lname"
+                    id="lname" 
+                    size="20"
+                    onblur="checkLast(event)"              
+                    aria-required="true"
+                    aria-invalid="false"
+                    aria-describedby="lname_error"/>
+          <div class="error" id="lname_error"></div>
+      </div>
+
+      <div class="text">
+        <label for="date">Birth Date</label>
+        <input type="text"
+                    name="date"
+                    id="date" 
+                    size="12"
+                    onblur="checkDate(event)"
+                    aria-required="false"
+                    aria-invalid="false"
+                    aria-describedby="date_error"/>
+        <div class="error" id="date_error" role="alert"></div>
+      </div>
+      
+      <div class="text">
+        <label for="ssn"><abbr title="Social Security Number">SSN</abbr></label>
+        <input type="text"
+                    name="ssn"
+                    id="ssn"
+                     size="10"
+                     onblur="checkSSN(event)"
+                    aria-required="false"
+                    aria-invalid="false"
+                    aria-describedby="ssn_error"/>
+        <div class="error" id="ssn_error" ></div>
+      </div>
+
+      <div class="text">
+        <label for="phone">
+            Phone  
+            <img src="images/required.png" alt="Required" />
+         </label>
+        <input type="text" 
+                    name="phone"
+                    id="phone" 
+                    size="14"
+                    onblur="checkPhone(event)"
+                    aria-required="true"
+                    aria-invalid="false"
+                    aria-describedby="phone_error"/>
+        <div class="error" id="phone_error" role="alert"></div>
+        
+      </div>
+      <div class="button">
+        <input type="button" 
+                    value="Check Form" 
+                    onclick=" validateForm()"/>
+      </div>
+    </form>
+    <p><a href="http://www.msfw.com/accessibility/tests/ClientSideValidationTest.html">Example was developed from MSF&amp;W Accessibility Tests</a></p>
+</body>
+</html>

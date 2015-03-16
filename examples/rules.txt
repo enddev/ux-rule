@@ -1,0 +1,46 @@
+Example Rules for Implemented Functions
+
+Certification Rules:
+	run(all ARules)		//run all A level certification rules, includes all NI rules
+	run(all AARules)	//run all AA level certification rules
+	run(all AAARules)	//run all AAA level certification rules
+	run(all NIRules)	//run all NI level certification rules
+	run(all rules)		//run all sets of certification rules
+
+Other rules:
+
+// All images have alt text
+for (all img) { alt='+'}
+
+// All images have alt text meeting RegExp condition
+for (all img) { alt='condition'}
+
+// Image alt text is consistent
+for (all <img1, img2>) {if (img1 == img2) then (alt1 == alt2) }
+
+// Image alt text has between [x,y] words
+for (all img) { alt.words[x,y] }
+
+// Can an overall page language be determined
+for (all page) { lang='+' }
+
+// Some pages have section languages specified
+for (some section) {lang='+'}
+
+// All instance of 'tag' have a language specified
+for (all 'tag') { lang='+' }
+
+// Check for skip to main content link
+for (1 link) {link='#main*'}
+
+// No link goes to 404 page
+for (all link) { link != 404 }
+
+// Number of redirects within [x,y], i.e. [0,4] means >= 0 and <= 4 redirects allowed for passing
+for ([x,y] link) { link = 3.. }
+
+// Check for certificate errors
+for (all link) {link.cert = true}
+
+// Check for nav menu consistency
+for (all <page1, page2>) {page1.nav == page2.nav}
