@@ -11,13 +11,14 @@
         {quant: 'all', tag: 'img', attrs: { alt: condition}, func: 'allImageTagAltMeetsCondition'},
         {quant: 'all', tag: 'img', cond: { if: {'img1','img2', '='}, then: {'alt1', 'alt2', '='}}, func: 'allImageTagAltIsConsistent'},
         {quant: 'all', tag: 'img', attrs: { alt: { words: [x,y]}}, func: 'allImageAltTextWithinWordLimit'},
-        {quant: 'all', tag: 'page', attrs: { lang: '+'}, func: 'allPageHasLang'},
-        {quant: 'some', tag: 'section', attrs: { lang: '+' }, func: 'someSectionsHaveLang'},
+        {quant: 'all', tag: 'html', attrs: { lang: '+'}, func: 'allPageHasLang'},
+        {quant: 'some', tag: '*', attrs: { lang: '+' }, func: 'someSectionsHaveLang'},
         {quant: 'all', tag: tag, attrs: { lang: '+' }, func: 'allSectionsHaveLang'},
-        {quant: '1', tag: 'link', attrs: { ref: '#main*'}, func: 'skipLinkExists'},
-        {quant: 'all', tag: 'link', attrs: {code: '!404'}, func: 'noPageHas404'},
-        {quant: [x,y], tag: 'link', attrs: {code: '3..'}, func: 'redirectsWithinLimit'},
-        {quant: 'all', tag: 'link', attrs: {cert: 'true'}, func: 'noPageHasBadCert'},
-        {quant: 'all', tag: 'page', cmp: {val1: 'page1.nav', val2: 'page2.nav, op: '='}, func: 'allNavMenuConsistent'}
+        {quant: ['1','*'], tag: 'a', attrs: { ref: '#main*'}, func: 'skipLinkExists'},
+        {quant: 'all', tag: 'a', attrs: {code: '!404'}, func: 'noPageHas404'},
+        {quant: [x,y], tag: 'a', attrs: {code: ['300','399']}, func: 'redirectsWithinLimit'},
+        {quant: 'all', tag: 'a', attrs: {cert: 'true'}, func: 'noPageHasBadCert'},
+        {quant: 'all', tag: 'html', cmp: {val1: 'page1.nav', val2: 'page2.nav, op: '='}, func: 'allNavMenuConsistent'},
+        {quant: 'all', tag: 'form', attrs: { isARIA: 'true' }, func: 'allFormsAreAria'}
     ]}
 ]}
