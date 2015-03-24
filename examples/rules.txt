@@ -31,7 +31,7 @@ for (some section) {lang='+'}
 for (all 'tag') { lang='+' }
 
 // Check for skip to main content link
-for (1 link) {href='#main*'}
+for ([1,*] link) {href='#main*'}
 
 // No link goes to 404 page
 for (all link) { link.code != 404 }
